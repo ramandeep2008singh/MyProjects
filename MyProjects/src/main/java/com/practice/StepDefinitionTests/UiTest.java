@@ -1,4 +1,4 @@
-package com.practice.test;
+package com.practice.StepDefinitionTests;
 
 import com.practice.util.UiTestUtil;
 
@@ -8,5 +8,10 @@ import com.practice.util.UiTestUtil;
  *
  */
 public class UiTest extends UiTestUtil {
+	
+	/**
+	 * Before method
+	 */
+	
 
 }
