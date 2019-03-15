@@ -31,5 +31,24 @@ public class Constants {
 	 * Constant for Edge
 	 */
 	public static final String EDGE = "edge";
+	
+	/**
+	 * Constant for UI Test property file
+	 */
+	public static final String UI_TEST = "/properties/UiTests.properties";
+	public static final String UI_TEST_FULL_PATH = "//Ramandeep2008Singh//src//main//resources//properties//UiTests.properties";
+	
+	/**
+	 * Constant for API Test property file
+	 */
+	public static final String API_TEST = "/properties/ApiTests.properties";
+	public static final String API_TEST_FULL_PATH = "//Ramandeep2008Singh//src//main//resources//properties//ApiTests.properties";
 
+	/**
+	 * Browser briver/binaries path
+	 */
+	public static final String CHROME_DRIVER = "//Ramandeep2008Singh//src//main//resources//drivers//chromedriver.exe";
+	public static final String FIREFOX_DRIVER = "//Ramandeep2008Singh//src//main//resources//drivers//geckoOdriver.exe";
+	public static final String IE_DRIVER = "//Ramandeep2008Singh//src//main//resources//drivers//IEDriverServer.exe";
+	public static final String EDGE_DRIVER = "//Ramandeep2008Singh//src//main//resources//drivers//MicrosoftWebDriver.exe";
 }
