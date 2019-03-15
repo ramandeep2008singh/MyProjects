@@ -1,10 +1,14 @@
 package com.practice.pagemodel;
 
 /**
- * This class contains locators fo UI tests
+ * This class contains locators for UI tests
  * @author ramandeep.singh.nagi
  *
  */
 public class UiTestPageModel {
+	
+	/**
+	 * 
+	 */
 
 }
