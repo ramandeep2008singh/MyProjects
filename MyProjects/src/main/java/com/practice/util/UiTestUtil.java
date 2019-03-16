@@ -4,11 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Properties;
 
-import org.openqa.selenium.WebDriver;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.practice.pagemodel.UiTestPageModel;
@@ -32,14 +33,19 @@ public class UiTestUtil {
 	FileInputStream fis;
 
 	/**
-	 * Initializing Object for WebDriver
+	 * Object to hold RemoteWebDriver value.
 	 */
-	WebDriver driver = null;
+	public static RemoteWebDriver driver;
+
+	/**
+	 * Adding logger
+	 */
+//	Logger logs;
 
 	/**
 	 * Initializing object of Page model class
 	 */
-	UiTestPageModel uiTestPageModel;
+	protected UiTestPageModel uiTestPageModel;
 
 	/** Instantiating the logger. */
 	// private static final TestLogger LOG =
@@ -49,6 +55,11 @@ public class UiTestUtil {
 	 * Method to login into portal
 	 */
 	public void login() {
+
+//		logs = Logger.getLogger("devpinoylogger");
+//		logs.debug("starting");
+//		logs.debug("executing");
+//		logs.debug("ending");
 
 	}
 
@@ -125,12 +136,24 @@ public class UiTestUtil {
 
 	}
 
-	/**
-	 * Method for screenshots
-	 */
-	public void takeScreenshot() {
-
-	}
+//	/**
+//	 * screenShot method is invoked whenever the Testcase is Failed.
+//	 * 
+//	 * @param name
+//	 * @param driver
+//	 * @return
+//	 */
+//	@Attachment(value = "Screenshot of {0}", type = "image/png")
+//	public byte[] saveScreenshot(String name, WebDriver driver) {
+//		return (byte[]) ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+//	}
+//
+//	public void run(IHookCallBack iHookCallBack, ITestResult iTestResult) {
+//		iHookCallBack.runTestMethod(iTestResult);
+//		if (iTestResult.getThrowable() != null) {
+//			this.saveScreenshot(iTestResult.getName(), driver);
+//		}
+//	}
 
 	/**
 	 * Method for retry failure cases
