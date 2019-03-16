@@ -10,8 +10,8 @@ import cucumber.api.junit.Cucumber;
 		dryRun=false,
 		strict=false,
 		monochrome=false,
-		features= {"src/main/resources/feature"},
-		glue = {"src/main/java/com.practice.StepDefinitionTests"},
+		features= {"src/main/resources/"},
+		glue = {"com.practice.StepDefinitions"},
 		format = {"pretty" }
 		)
 
