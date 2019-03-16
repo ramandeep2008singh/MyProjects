@@ -12,7 +12,6 @@ import cucumber.api.junit.Cucumber;
 		monochrome=false,
 		features= {"src/main/resources/feature"},
 		glue = {"src/main/java/com.practice.StepDefinitionTests"},
-		tags= {"@SignUp"},
 		format = {"pretty" }
 		)
 

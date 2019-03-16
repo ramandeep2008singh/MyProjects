@@ -1,4 +1,4 @@
-package com.practice.StepDefinitionTests;
+package com.practice.StepDefinitions;
 
 import com.practice.util.ApiTestUtil;
 
@@ -7,7 +7,7 @@ import com.practice.util.ApiTestUtil;
  * @author ramandeep.singh.nagi
  *
  */
-public class ApiTest extends ApiTestUtil {
+public class ApiStepDefinition extends ApiTestUtil {
 	
 	/**
 	 * 1111

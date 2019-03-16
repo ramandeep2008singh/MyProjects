@@ -1,4 +1,4 @@
-package com.practice.StepDefinitionTests;
+package com.practice.StepDefinitions;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -19,7 +19,7 @@ import com.practice.util.*;
  * @author ramandeep.singh.nagi
  *
  */
-public class UiTest extends UiTestUtil {
+public class UiStepDefinition extends UiTestUtil {
 
 	/**
 	 * Before method
