@@ -23,21 +23,24 @@
 			<artifactId>selenium-java</artifactId>
 			<version>3.13.0</version>
 		</dependency>
-		<!--Note that as of 2.0.0 the groupId has changed to io.cucumber -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>
 			<version>3.0.2</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Runners -->
+
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-junit</artifactId>
 			<version>3.0.2</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>1.2.2</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -56,19 +59,16 @@
 			<artifactId>extentreports</artifactId>
 			<version>3.1.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-jvm -->
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.14.3</version>
-			<scope>test</scope>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-jvm</artifactId>
+			<version>1.2.5</version>
+			<type>pom</type>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-testng -->
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-testng</artifactId>
-			<version>3.0.2</version>
-		</dependency>
+
 	</dependencies>
 
 	<build>

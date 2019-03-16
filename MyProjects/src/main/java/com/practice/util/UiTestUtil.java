@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -66,21 +65,21 @@ public class UiTestUtil {
 	/**
 	 * Method to setup the browser, properties file ...
 	 */
-	public void setup() {
+	public void setup(String browser) {
 
-		if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(Constants.CHROME)) {
+		if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(browser)) {
 			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + Constants.CHROME_DRIVER);
 			driver = new ChromeDriver();
 			// TODO: add code here
-		} else if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(Constants.FIREFOX)) {
+		} else if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(browser)) {
 			System.setProperty("webdriver.gecko.driver", Constants.FIREFOX_DRIVER);
 			driver = new FirefoxDriver();
 			// TODO: add code here
-		} else if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(Constants.IE)) {
+		} else if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(browser)) {
 			System.setProperty("webdriver.ie.driver", Constants.IE_DRIVER);
 			driver = new InternetExplorerDriver();
 			// TODO: add code here
-		} else if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(Constants.EDGE)) {
+		} else if (properties.getProperty(Constants.BROWSER).equalsIgnoreCase(browser)) {
 			System.setProperty("webdriver.edge.driver", Constants.EDGE_DRIVER);
 			driver = new EdgeDriver();
 			// TODO: add code here
