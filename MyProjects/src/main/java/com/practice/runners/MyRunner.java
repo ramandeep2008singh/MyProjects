@@ -12,10 +12,8 @@ import cucumber.api.junit.Cucumber;
 		monochrome=false,
 		features= {"src/main/resources/feature"},
 		glue = {"src/main/java/com.practice.StepDefinitionTests"},
-		plugin= {
-				"html:target/site/cucumber-html",
-				"json:target/cucumber1.json"},
-		tags= {"@SignUp"}
+		tags= {"@SignUp"},
+		format = {"pretty" }
 		)
 
 public class MyRunner {
