@@ -1,13 +1,12 @@
 package com.practice.util;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,8 +15,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.practice.pagemodel.UiTestPageModel;
+import com.practice.reports.ExtentManager;
 
 /**
  * UI test util methods
@@ -30,7 +35,7 @@ public class UiTestUtil {
 	/**
 	 * variable for properties
 	 */
-	Properties properties = null;
+	public Properties properties;
 
 	/**
 	 * variable for file input stream
@@ -43,16 +48,23 @@ public class UiTestUtil {
 	public static RemoteWebDriver driver;
 
 	/**
-	 * Adding logger
+	 * Adding Extent classes object
 	 */
-	// Logger logs;
+	public ExtentReports exReport;
+	public ExtentTest exScenario;
 
 	/**
 	 * Initializing object of Page model class
 	 */
-	protected UiTestPageModel uiTestPageModel;
+	public UiTestPageModel uiTestPageModel;
 
 	/** Instantiating the logger. */
+
+	/**
+	 * WebDriver wait object
+	 */
+	public WebDriverWait wait;
+
 	// private static final TestLogger LOG =
 	// TestLogger.getLogger(UiTestUtil.class);
 
@@ -87,7 +99,7 @@ public class UiTestUtil {
 
 		}
 		setDefaultWaitTime();
-
+		initializeMethods();
 	}
 
 	/**
@@ -107,18 +119,22 @@ public class UiTestUtil {
 			ops.addArguments("--start-maximized");
 
 			driver = new ChromeDriver(ops);
+			infoLog("browser opened: " + desiredBrowser);
 
 		} else if (desiredBrowser.equalsIgnoreCase(Constants.FIREFOX)) {
 			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + Constants.FIREFOX_DRIVER);
 			driver = new FirefoxDriver();
+			infoLog("browser opened: " + desiredBrowser);
 
 		} else if (desiredBrowser.equalsIgnoreCase(Constants.IE)) {
 			System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + Constants.IE_DRIVER);
 			driver = new InternetExplorerDriver();
+			infoLog("browser opened: " + desiredBrowser);
 
 		} else if (desiredBrowser.equalsIgnoreCase(Constants.EDGE)) {
 			System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + Constants.EDGE_DRIVER);
 			driver = new EdgeDriver();
+			infoLog("browser opened: " + desiredBrowser);
 
 		}
 
@@ -134,6 +150,26 @@ public class UiTestUtil {
 		driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
+	
+	/**
+	 * Method to wait for an element till it's display .
+	 * 
+	 * @param by
+	 */
+	public void waitForElementDisplayed(By by) {
+
+		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(by));
+	}
+	
+	/**
+	 * Method to wait for an element till it's clickable.
+	 * 
+	 * @param by
+	 */
+	public void waitForElementToBeClickable(By by) {
+
+		new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(by));
+	}
 
 	public void navigateToPortal(String url) {
 		driver.get(url);
@@ -148,16 +184,16 @@ public class UiTestUtil {
 
 	/**
 	 * load properties file
+	 * 
+	 * @throws IOException
 	 */
 	public void loadProperties() {
 
+		properties = new Properties();
+		FileInputStream fis;
 		try {
-			FileReader reader = new FileReader(System.getProperty("user.dir") + Constants.UI_TEST_FULL_PATH);
-			properties = new Properties();
-			properties.load(reader);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fis = new FileInputStream(System.getProperty("user.dir") + Constants.UI_TEST_FULL_PATH);
+			properties.load(fis);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -165,24 +201,13 @@ public class UiTestUtil {
 
 	}
 
-	// else if (giveProperty.equalsIgnoreCase(Constants.API_TEST)) {
-	// properties = new Properties();
-	// try {
-	// fis = new FileInputStream(System.getProperty("user.dir") +
-	// Constants.API_TEST_FULL_PATH);
-	// } catch (FileNotFoundException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-	//
-
 	/**
 	 * Method to initialize page model class
 	 */
-	public void initializePageModel() {
+	public void initializeMethods() {
 
-		uiTestPageModel = PageFactory.initElements(driver, UiTestPageModel.class);
+		this.uiTestPageModel = PageFactory.initElements(driver, UiTestPageModel.class);
+		loadProperties();
 
 	}
 
@@ -199,26 +224,6 @@ public class UiTestUtil {
 	public void logs() {
 
 	}
-
-	// /**
-	// * screenShot method is invoked whenever the Testcase is Failed.
-	// *
-	// * @param name
-	// * @param driver
-	// * @return
-	// */
-	// @Attachment(value = "Screenshot of {0}", type = "image/png")
-	// public byte[] saveScreenshot(String name, WebDriver driver) {
-	// return (byte[]) ((TakesScreenshot)
-	// driver).getScreenshotAs(OutputType.BYTES);
-	// }
-	//
-	// public void run(IHookCallBack iHookCallBack, ITestResult iTestResult) {
-	// iHookCallBack.runTestMethod(iTestResult);
-	// if (iTestResult.getThrowable() != null) {
-	// this.saveScreenshot(iTestResult.getName(), driver);
-	// }
-	// }
 
 	/**
 	 * Method for retry failure cases
@@ -253,5 +258,52 @@ public class UiTestUtil {
 	public void tearDown() {
 
 	}
-
+	
+	/*****************Extent report****************
+	
+	/**
+	 * Method to generate the Extent Reports
+	 */
+	public void initReports(String scenarioName) {
+		exReport = ExtentManager.getInstance(this.properties.getProperty("ExtentReportPath"));
+		exScenario = exReport.createTest(scenarioName);
+		exScenario.log(Status.INFO, "Starting scenario " + scenarioName);
+	}
+	
+	//***********Extent logs****************
+	
+	/**
+	 * Method for INFO log
+	 */
+	public void infoLog(String msg) {
+		exScenario.log(Status.INFO, msg);
+	}
+	
+	/**
+	 * Method for FAILURE log
+	 */
+	public void failurerLog(String msg) {
+		exScenario.log(Status.FAIL, msg);
+	}
+	
+	/**
+	 * Method for ERROR log
+	 */
+	public void errorrLog(String msg) {
+		exScenario.log(Status.ERROR, msg);
+	}
+	
+	/**
+	 * Method for DEBUG log
+	 */
+	public void debugLog(String msg) {
+		exScenario.log(Status.DEBUG, msg);
+	}
+	
+	/**
+	 * Method for WARNING log
+	 */
+	public void warningLog(String msg) {
+		exScenario.log(Status.WARNING, msg);
+	}
 }

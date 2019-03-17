@@ -1,12 +1,15 @@
 package com.practice.StepDefinitions;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 
 import com.practice.util.UiTestUtil;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
+import cucumber.api.Scenario;
 
 /**
  * This class contains tests from web-UI
@@ -15,80 +18,81 @@ import cucumber.api.java.en.When;
  *
  */
 public class UiStepDefinition extends UiTestUtil {
-	
+
 	protected String EMAIL = "username" + Integer.toString(generateRandomEmail()) + "@gmail.com";
-	protected String FIRST_NAME = "firstname" +  Integer.toString(generateRandomEmail());
-	protected String LAST_NAME = "lastname" +  Integer.toString(generateRandomEmail());
+	protected String FIRST_NAME = "fname" + Integer.toString(generateRandomEmail());
+	protected String LAST_NAME = "lname" + Integer.toString(generateRandomEmail());
 	Select select;
-	
 
 	/**
 	 * Before method
 	 */
-//	@Before
-//	public void setup() {
-
-//		login();
-		// super.setup();
-		// Logger logger = Logger.getLogger("devpinoylogger");
-		// configure log4j properties file
-		// PropertyConfigurator.configure("Log4j.properties");
-
-//	}
+	@Before
+	public void beforeAnnotation(Scenario s) {
+		System.out.println("Inside Scenario: " + "'" + s.getName() +"'");
+		initReports(s.getName());
+	}
 
 	/**************************** Given Methods *************************/
-	
+
 	/**
 	 * Method to open the browser
+	 * 
 	 * @param browser
 	 */
 	@Given("^I have opened the (.*) browser$")
 	public void openBrowser(String browser) {
+		infoLog("Opening browser " + browser);
 		openBrowserWindow(browser);
 
 	}
-	
 
 	/**************************** AND Methods *************************/
-	
+
 	/**
 	 * Method to load the portal url
+	 * 
 	 * @param url
 	 */
 	@And("^I have loaded the url (.*)$")
 	public void loadURL(String url) {
+		infoLog("Opening url " + url);
 		navigateToPortal(url);
 
 	}
-	
+
 	/**
 	 * Method to enter user email
+	 * 
 	 * @param email
 	 */
 	@And("^user enters (.*)$")
 	public void enterEmail(String email) {
+		infoLog("Entering email " + EMAIL);
 		uiTestPageModel.getTxtBoxCreateAcc().sendKeys(EMAIL);
 	}
-	
+
 	/**
-	 * Method to click on  Create an account button
+	 * Method to click on Create an account button
 	 */
 	@And("^user clicks on Create an account button$")
 	public void clickOnCreateAnAccountBtn() {
+		infoLog("Clicking on button: " + uiTestPageModel.getBtnCreateAnAcc().getText());
 		uiTestPageModel.getBtnCreateAnAcc().click();
 	}
-	
-	
+
 	/**************************** WHEN Methods *************************/
-	
+
 	/**
 	 * Method to click on Sign in button on Home page
 	 */
 	@When("^user clicks on Sign in button$")
 	public void clickSignInOnHomePage() {
+		infoLog("Clicking on Sign in link: " + uiTestPageModel.getLinkSignin().getText());
+		waitForElementDisplayed(By.cssSelector(".login"));
 		uiTestPageModel.getLinkSignin().click();
 	}
-	
+
 	/**
 	 * Method to fill all the fields of user's personal info
 	 */
@@ -97,7 +101,7 @@ public class UiStepDefinition extends UiTestUtil {
 		// TODO: enter all fiends data here
 		uiTestPageModel.getRdBtnMr().click();
 		// fill first name
-		uiTestPageModel.getTxtBoxFirstName().sendKeys(FIRST_NAME);
+		uiTestPageModel.getTxtBoxFirstName().sendKeys(properties.getProperty("browser"));
 		// last name
 		uiTestPageModel.getTxtBoxFirstName().sendKeys(LAST_NAME);
 		// TODO: enter pass from properties
@@ -109,9 +113,9 @@ public class UiStepDefinition extends UiTestUtil {
 		select.selectByIndex(3);
 		select = new Select(uiTestPageModel.getDrpDwnYears());
 		select.selectByIndex(3);
-		
+
 	}
-	
+
 	/**************************** THEN Methods *************************/
-	
+
 }

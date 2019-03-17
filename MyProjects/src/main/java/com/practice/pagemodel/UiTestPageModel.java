@@ -633,5 +633,5 @@ public class UiTestPageModel {
 	public WebElement getLinkSignin() {
 		return linkSignin;
 	}
-
+	
 }
