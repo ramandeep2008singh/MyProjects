@@ -1,0 +1,35 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "array",
+	"items": {
+		"type": "object",
+		"properties": {
+			"id": {
+				"type": "string"
+			},
+			"employee_name": {
+				"type": "string",
+				"description": "id for pcdp serviceDelivery"
+			},
+			"employee_salary": {
+				"type": "string",
+				"description": "Service Delivery Type Code to identify prod catalog config"
+			},
+			"employee_age": {
+				"type": "string",
+				"description": "Involvement ID for person in service delivery"
+			},
+			"profile_image": {
+				"type": "string",
+				"description": "id for the pcdp Person resource"
+			}
+		},
+	"required": [
+		"id",
+		"employee_name",
+		"employee_salary",
+		"employee_age",
+		"profile_image"
+	]
+	}
+}
