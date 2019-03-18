@@ -3,6 +3,8 @@ package com.practice.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -12,14 +14,15 @@ import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,6 +32,8 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.practice.pagemodel.UiTestPageModel;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
  * UI test util methods
@@ -72,6 +77,16 @@ public class UiTestUtil {
 	 * WebDriver wait object
 	 */
 	public WebDriverWait wait;
+	
+	/**
+	 * Method to get current driver.
+	 * 
+	 * @return
+	 */
+	public RemoteWebDriver getDriver() {
+
+		return driver;
+	}
 
 	/********************************* Util methods ***********************/
 
@@ -80,32 +95,72 @@ public class UiTestUtil {
 	 */
 	public void openBrowserWindow(String browserName) {
 
-		if (browserName.equalsIgnoreCase(Constants.CHROME)) {
-			setDesiredBrowser(browserName);
+		if (properties.getProperty("Grid").equalsIgnoreCase("Y")) {
+			DesiredCapabilities caps = null;
+			if (browserName.equalsIgnoreCase(Constants.CHROME)) {
+				caps = DesiredCapabilities.chrome();
+//				caps.setJavascriptEnabled(true);
+//				caps.setPlatform(Platform.ANY);
+			} else if (browserName.equalsIgnoreCase(Constants.FIREFOX)) {
+				caps = DesiredCapabilities.firefox();
+				caps.setJavascriptEnabled(true);
+				caps.setPlatform(Platform.ANY);
+			} else if (browserName.equalsIgnoreCase(Constants.IE)) {
+				caps = DesiredCapabilities.internetExplorer();
+				caps.setJavascriptEnabled(true);
+				caps.setPlatform(Platform.ANY);
+				caps.setVersion("11");
+			} else if (browserName.equalsIgnoreCase(Constants.CHROME)) {
+				caps = DesiredCapabilities.edge();
+				caps.setJavascriptEnabled(true);
+				caps.setPlatform(Platform.ANY);
+			}
+			try {
+				driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			if (browserName.equalsIgnoreCase(Constants.CHROME)) {
+				// setBrowserBinaries();
+				setDesiredBrowser(browserName);
 
-		} else if (browserName.equalsIgnoreCase(Constants.FIREFOX)) {
-			setDesiredBrowser(browserName);
+			} else if (browserName.equalsIgnoreCase(Constants.FIREFOX)) {
+				// setBrowserBinaries();
+				setDesiredBrowser(browserName);
 
-		} else if (browserName.equalsIgnoreCase(Constants.IE)) {
-			setDesiredBrowser(browserName);
+			} else if (browserName.equalsIgnoreCase(Constants.IE)) {
+				// setBrowserBinaries();
+				setDesiredBrowser(browserName);
 
-		} else if (browserName.equalsIgnoreCase(Constants.EDGE)) {
-			setDesiredBrowser(browserName);
+			} else if (browserName.equalsIgnoreCase(Constants.EDGE)) {
+				// setBrowserBinaries();
+				setDesiredBrowser(browserName);
 
+			}
 		}
 		setDefaultWaitTime();
 		initializeMethods();
 	}
 
 	/**
+	 * Method to load all binaries & drivers for supported browsers
+	 */
+	public void setBrowserBinaries() {
+		WebDriverManager.chromedriver().setup();
+		WebDriverManager.firefoxdriver().setup();
+		WebDriverManager.edgedriver().setup();
+		WebDriverManager.iedriver().setup();
+	}
+
+	/**
 	 * Method to handle ChromeOptions
 	 */
 	public void setDesiredBrowser(String desiredBrowser) {
-
 		if (desiredBrowser.equalsIgnoreCase(Constants.CHROME)) {
+
 			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + Constants.CHROME_DRIVER);
-			// To enable browser level logs
-			System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY, "D://chrome.log");
+
 			// To stop browser level logs printing to the console
 			System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
 			ChromeOptions ops = new ChromeOptions();
@@ -118,16 +173,19 @@ public class UiTestUtil {
 
 		} else if (desiredBrowser.equalsIgnoreCase(Constants.FIREFOX)) {
 			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + Constants.FIREFOX_DRIVER);
+
 			driver = new FirefoxDriver();
 			infoLog("browser opened: " + desiredBrowser);
 
 		} else if (desiredBrowser.equalsIgnoreCase(Constants.IE)) {
 			System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + Constants.IE_DRIVER);
+
 			driver = new InternetExplorerDriver();
 			infoLog("browser opened: " + desiredBrowser);
 
 		} else if (desiredBrowser.equalsIgnoreCase(Constants.EDGE)) {
 			System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + Constants.EDGE_DRIVER);
+
 			driver = new EdgeDriver();
 			infoLog("browser opened: " + desiredBrowser);
 		}
@@ -167,7 +225,8 @@ public class UiTestUtil {
 
 		this.uiTestPageModel = PageFactory.initElements(driver, UiTestPageModel.class);
 		loadProperties();
-
+		// System.out.println("util: " +
+		// properties.getProperty("ExtentReportPath"));
 	}
 
 	/**
@@ -182,17 +241,17 @@ public class UiTestUtil {
 		return randomInt;
 
 	}
-	
-//	public WebElement getObject(WebElement we) {
-//		try {
-//			return we;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			reportFailure("Unable to extract Object: "+ we);
-//		}
-//		return we;
-//					
-//	}
+
+	// public WebElement getObject(WebElement we) {
+	// try {
+	// return we;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// reportFailure("Unable to extract Object: "+ we);
+	// }
+	// return we;
+	//
+	// }
 
 	/******************* Methods to handle waits *************************/
 
@@ -202,7 +261,7 @@ public class UiTestUtil {
 	private void setDefaultWaitTime() {
 
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
 		driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}

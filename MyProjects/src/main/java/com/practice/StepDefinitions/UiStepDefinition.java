@@ -33,6 +33,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@Before
 	public void beforeAnnotation(Scenario s) {
 		initReports(s.getName());
+		initializeMethods();
 	}
 
 	@After
@@ -75,6 +76,7 @@ public class UiStepDefinition extends UiTestUtil {
 	 */
 	@And("^user enters (.*)$")
 	public void enterEmail(String email) {
+//		reportFailure("Unable to extract Object: "+ email);
 		infoLog("Entering email " + EMAIL);
 		uiTestPageModel.getTxtBoxCreateAcc().sendKeys(EMAIL);
 	}

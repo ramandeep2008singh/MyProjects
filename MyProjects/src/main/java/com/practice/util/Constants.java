@@ -52,4 +52,9 @@ public class Constants {
 	public static final String IE_DRIVER = "//src//main//resources//drivers//IEDriverServer.exe";
 	public static final String EDGE_DRIVER = "//src//main//resources//drivers//MicrosoftWebDriver.exe";
 	
+	/**
+	 * Constant for GRID HUB URL
+	 */
+	public static final String GRID_HUB = "http://localhost:4444/wd/hub";
+	
 }

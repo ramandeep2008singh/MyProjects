@@ -27,6 +27,7 @@
 			<artifactId>selenium-java</artifactId>
 			<version>3.13.0</version>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-junit -->
 		<dependency>
 			<groupId>info.cukes</groupId>
@@ -102,6 +103,13 @@
 			<version>2.9.6</version>
 		</dependency>
 
+		<!-- Below dependency is used to avoid unnecessary binaries -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>3.3.0</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -120,11 +128,11 @@
 						</goals>
 						<configuration>
 							<glue>
-								<package>com.qtpselenium.steps</package>
+								<package>com.practice.StepDefinitions</package>
 							</glue>
 							<outputDirectory>${project.build.directory}/generated-test-sources/cucumber</outputDirectory>
 							<cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
-							<featuresDirectory>src/test/resources</featuresDirectory>
+							<featuresDirectory>src/main/resources</featuresDirectory>
 							<parallelScheme>SCENARIO</parallelScheme>
 
 							<plugins>

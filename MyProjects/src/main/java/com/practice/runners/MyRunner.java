@@ -12,7 +12,7 @@ import cucumber.api.junit.Cucumber;
 		monochrome=false,
 		features= {"src/main/resources/"},
 		glue = {"com.practice.StepDefinitions"},
-		format = {"pretty" }
+		format = {"pretty"}
 		)
 
 public class MyRunner {
