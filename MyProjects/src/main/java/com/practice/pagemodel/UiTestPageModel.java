@@ -14,7 +14,8 @@ public class UiTestPageModel {
 	/**
 	 * Locator for link: "Sign in"
 	 */
-	@FindBy(css = ".login")
+	@FindBy(css = ".llllogin")
+//	@FindBy(css = ".login")
 	private WebElement linkSignin;
 
 	/**

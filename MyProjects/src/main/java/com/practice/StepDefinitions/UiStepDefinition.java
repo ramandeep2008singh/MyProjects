@@ -5,11 +5,12 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.practice.util.UiTestUtil;
 
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
-import cucumber.api.Scenario;
 
 /**
  * This class contains tests from web-UI
@@ -24,13 +25,19 @@ public class UiStepDefinition extends UiTestUtil {
 	protected String LAST_NAME = "lname" + Integer.toString(generateRandomEmail());
 	Select select;
 
+	/**************** Hooks (Before & After) ******************************/
+
 	/**
 	 * Before method
 	 */
 	@Before
 	public void beforeAnnotation(Scenario s) {
-		System.out.println("Inside Scenario: " + "'" + s.getName() +"'");
 		initReports(s.getName());
+	}
+
+	@After
+	public void afterAnnotation() {
+		quit();
 	}
 
 	/**************************** Given Methods *************************/

@@ -1,5 +1,7 @@
 package com.practice.StepDefinitions;
 
+import static org.testng.Assert.assertNull;
+
 import java.io.IOException;
 import java.util.Set;
 
@@ -8,7 +10,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,5 +41,6 @@ public class ApiStepDefinition {
 		JsonSchema schema = schemaFactory.getSchema(getClass().getResourceAsStream("/other/event-schema.json"));
 		// Validate the JSON against the schema.
 		Set<ValidationMessage> validationErrors = schema.validate(jsonNode);
+		assertNull(validationErrors);
 	}
 }

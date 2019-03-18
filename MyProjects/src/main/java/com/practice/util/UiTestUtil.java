@@ -1,12 +1,19 @@
 package com.practice.util;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -22,7 +29,6 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.practice.pagemodel.UiTestPageModel;
-import com.practice.reports.ExtentManager;
 
 /**
  * UI test util methods
@@ -31,6 +37,8 @@ import com.practice.reports.ExtentManager;
  *
  */
 public class UiTestUtil {
+
+	/******************* Creating the reference Objects of classes *********/
 
 	/**
 	 * variable for properties
@@ -65,20 +73,7 @@ public class UiTestUtil {
 	 */
 	public WebDriverWait wait;
 
-	// private static final TestLogger LOG =
-	// TestLogger.getLogger(UiTestUtil.class);
-
-	/**
-	 * Method to login into portal
-	 */
-	public void login() {
-
-		// logs = Logger.getLogger("devpinoylogger");
-		// logs.debug("starting");
-		// logs.debug("executing");
-		// logs.debug("ending");
-
-	}
+	/********************************* Util methods ***********************/
 
 	/**
 	 * Method to open browser
@@ -135,51 +130,16 @@ public class UiTestUtil {
 			System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + Constants.EDGE_DRIVER);
 			driver = new EdgeDriver();
 			infoLog("browser opened: " + desiredBrowser);
-
 		}
-
 	}
 
 	/**
-	 * Method to set default wait and execution time, and maximize window size.
-	 */
-	private void setDefaultWaitTime() {
-
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-		driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
-	}
-	
-	/**
-	 * Method to wait for an element till it's display .
+	 * Method to navigate to the desired portal
 	 * 
-	 * @param by
+	 * @param url
 	 */
-	public void waitForElementDisplayed(By by) {
-
-		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(by));
-	}
-	
-	/**
-	 * Method to wait for an element till it's clickable.
-	 * 
-	 * @param by
-	 */
-	public void waitForElementToBeClickable(By by) {
-
-		new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(by));
-	}
-
 	public void navigateToPortal(String url) {
 		driver.get(url);
-	}
-
-	/**
-	 * Method to setup the browser, properties file ...
-	 */
-	public void setup(String browser) {
-
 	}
 
 	/**
@@ -188,17 +148,16 @@ public class UiTestUtil {
 	 * @throws IOException
 	 */
 	public void loadProperties() {
-
-		properties = new Properties();
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream(System.getProperty("user.dir") + Constants.UI_TEST_FULL_PATH);
-			properties.load(fis);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (properties == null) {
+			try {
+				properties = new Properties();
+				FileInputStream fs = new FileInputStream(System.getProperty("user.dir") + Constants.UI_TEST_FULL_PATH);
+				properties.load(fs);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// report
+			}
 		}
-
 	}
 
 	/**
@@ -209,34 +168,6 @@ public class UiTestUtil {
 		this.uiTestPageModel = PageFactory.initElements(driver, UiTestPageModel.class);
 		loadProperties();
 
-	}
-
-	/**
-	 * Method to handle waits
-	 */
-	public void waits() {
-
-	}
-
-	/**
-	 * Method for logging
-	 */
-	public void logs() {
-
-	}
-
-	/**
-	 * Method for retry failure cases
-	 */
-	public void retryTests() {
-
-	}
-
-	/**
-	 * Method to logout
-	 */
-	public void logout() {
-		// TODO: write code here
 	}
 
 	/**
@@ -251,55 +182,140 @@ public class UiTestUtil {
 		return randomInt;
 
 	}
+	
+//	public WebElement getObject(WebElement we) {
+//		try {
+//			return we;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			reportFailure("Unable to extract Object: "+ we);
+//		}
+//		return we;
+//					
+//	}
+
+	/******************* Methods to handle waits *************************/
 
 	/**
-	 * Method to close the browser
+	 * Method to set default wait and execution time, and maximize window size.
 	 */
-	public void tearDown() {
+	private void setDefaultWaitTime() {
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+	}
+
+	/**
+	 * Method to wait for an element till it's display .
+	 * 
+	 * @param by
+	 */
+	public void waitForElementDisplayed(By by) {
+
+		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(by));
+	}
+
+	/**
+	 * Method to wait for an element till it's clickable.
+	 * 
+	 * @param by
+	 */
+	public void waitForElementToBeClickable(By by) {
+
+		new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(by));
+	}
+
+	/************************************* Screenshot ***********************************/
+
+	/**
+	 * Method to: - Log failure to reports - Calling the takeScreenshot method -
+	 * failing the cucumber assertions
+	 */
+	public void reportFailure(String errMsg) {
+		// fail in extent reports
+		exScenario.log(Status.FAIL, errMsg);
+		// take screenshot and put in repots
+		takeSceenShot();
+		// fail in cucumber as well
+		Assertions.assertThat(false);
+	}
+
+	/**
+	 * Method to capture the screenshot
+	 */
+	public void takeSceenShot() {
+		// fileName of the screenshot
+		Date d = new Date();
+		String screenshotFile = d.toString().replace(":", "_").replace(" ", "_") + ".png";
+		// take screenshot
+		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try {
+			// get the dynamic folder name
+			FileUtils.copyFile(srcFile, new File(ExtentManager.screenshotFolderPath + screenshotFile));
+			// put screenshot file in reports
+			exScenario.log(Status.FAIL, "Screenshot-> "
+					+ exScenario.addScreenCaptureFromPath(ExtentManager.screenshotFolderPath + screenshotFile));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
-	
-	/*****************Extent report****************
-	
+
+	/*************************** Extent report ***************************/
+
 	/**
-	 * Method to generate the Extent Reports
+	 * /** Method to generate the Extent Reports
 	 */
 	public void initReports(String scenarioName) {
-		exReport = ExtentManager.getInstance(this.properties.getProperty("ExtentReportPath"));
+
+		exReport = ExtentManager.getInstance("C:\\Reports\\");
 		exScenario = exReport.createTest(scenarioName);
 		exScenario.log(Status.INFO, "Starting scenario " + scenarioName);
 	}
-	
-	//***********Extent logs****************
-	
+
+	/**
+	 * Method to close the reporting
+	 */
+	public void quit() {
+		if (exReport != null)
+			exReport.flush();
+		if (driver != null)
+			driver.quit();
+	}
+
+	/************************** Extent logs *************************/
+
 	/**
 	 * Method for INFO log
 	 */
 	public void infoLog(String msg) {
 		exScenario.log(Status.INFO, msg);
 	}
-	
+
 	/**
 	 * Method for FAILURE log
 	 */
 	public void failurerLog(String msg) {
 		exScenario.log(Status.FAIL, msg);
 	}
-	
+
 	/**
 	 * Method for ERROR log
 	 */
 	public void errorrLog(String msg) {
 		exScenario.log(Status.ERROR, msg);
 	}
-	
+
 	/**
 	 * Method for DEBUG log
 	 */
 	public void debugLog(String msg) {
 		exScenario.log(Status.DEBUG, msg);
 	}
-	
+
 	/**
 	 * Method for WARNING log
 	 */
