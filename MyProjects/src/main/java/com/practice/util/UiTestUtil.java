@@ -3,7 +3,6 @@ package com.practice.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Properties;
@@ -13,9 +12,12 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -26,6 +28,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -79,6 +82,11 @@ public class UiTestUtil {
 	public WebDriverWait wait;
 	
 	/**
+	 * Declaring Select Objects
+	 */
+	protected Select select;
+
+	/**
 	 * Method to get current driver.
 	 * 
 	 * @return
@@ -87,6 +95,9 @@ public class UiTestUtil {
 
 		return driver;
 	}
+
+	protected String EMAIL = "";
+	protected String PASSWORD = "";
 
 	/********************************* Util methods ***********************/
 
@@ -99,8 +110,9 @@ public class UiTestUtil {
 			DesiredCapabilities caps = null;
 			if (browserName.equalsIgnoreCase(Constants.CHROME)) {
 				caps = DesiredCapabilities.chrome();
-//				caps.setJavascriptEnabled(true);
-//				caps.setPlatform(Platform.ANY);
+				caps.setBrowserName(Constants.CHROME);
+				// caps.setJavascriptEnabled(true);
+				 caps.setPlatform(Platform.ANY);
 			} else if (browserName.equalsIgnoreCase(Constants.FIREFOX)) {
 				caps = DesiredCapabilities.firefox();
 				caps.setJavascriptEnabled(true);
@@ -116,7 +128,8 @@ public class UiTestUtil {
 				caps.setPlatform(Platform.ANY);
 			}
 			try {
-				driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
+				driver = new RemoteWebDriver(new URL("http://192.168.0.101:4444/wd/hub"), caps);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -234,12 +247,61 @@ public class UiTestUtil {
 	 * 
 	 * @return
 	 */
-	public int generateRandomEmail() {
+	public String generateRandomEmail() {
 
 		Random randomGenerator = new Random();
-		int randomInt = randomGenerator.nextInt(1000);
-		return randomInt;
+		int randomInt = randomGenerator.nextInt(99999);
+		EMAIL = "username" + Integer.toString(randomInt) + "@gmail.com";
+		System.out.println(EMAIL);
+		return EMAIL;
 
+	}
+	
+	/**
+	 * Method to verify if element is present
+	 * 
+	 * @param by
+	 * @return
+	 */
+	protected boolean isElementPresent(WebElement element) {
+
+		try {
+			element.isDisplayed();
+			return true;
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			reportFailure("Elelemnt is not present");
+			return false;
+		}
+	}
+	
+	/**
+	 * Method to click on element using java script.
+	 * 
+	 * @param by
+	 */
+	public void javaScriptElementClick(By by) {
+
+		waitForElementToBeClickable(by);
+		JavascriptExecutor executer = driver;
+		executer.executeScript("arguments[0].click();", driver.findElement(by));
+	}
+	
+	/**
+	 * Scroll into view
+	 * 
+	 * @param element
+	 *        Scroll into view
+	 */
+	public void scrollIntoView(WebElement element) {
+
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// public WebElement getObject(WebElement we) {

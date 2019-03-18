@@ -264,8 +264,50 @@ public class UiTestPageModel {
 	 */
 	@FindBy(xpath = "//*[@class='cheque-indent']/strong")
 	private WebElement lblOrderIsComplete;
+	
+	/**
+	 * Locator for label error message: "An account using this email address has already been registered. Please enter a valid password or request a new one."
+	 */
+	@FindBy(css = "#create_account_error")
+	private WebElement lblErrorMsgPanel;
+	
+	/**
+	 * Locator for button: "Add to cart"
+	 */
+	@FindBy(css = ".button-container>span")
+	private WebElement btnAddToCartOnMouseAction;
+	
+	/**
+	 * Locator for label: "Payment" 
+	 */
+	@FindBy(css = ".step_current.last")
+	private WebElement lblPaymentBrdCrmb;
 
 	// --------------Getters----------------
+
+	/**
+	 * Locator for label: "Payment" 
+	 * @return lblPaymentBrdCrmb
+	 */
+	public WebElement getLblPaymentBrdCrmb() {
+		return lblPaymentBrdCrmb;
+	}
+
+	/**
+	 * Locator for button: "Add to cart"
+	 * @return btnAddToCartOnMouseAction
+	 */
+	public WebElement getBtnAddToCartOnMouseAction() {
+		return btnAddToCartOnMouseAction;
+	}
+
+	/**
+	 * Locator for label error message: "An account using this email address has already been registered. Please enter a valid password or request a new one."
+	 * @return lblErrorMsgPanel
+	 */
+	public WebElement getLblErrorMsgPanel() {
+		return lblErrorMsgPanel;
+	}
 
 	/**
 	 * Locator for label message: "Your order on My Store is complete."

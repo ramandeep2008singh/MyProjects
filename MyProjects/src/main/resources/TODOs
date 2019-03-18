@@ -1,3 +1,11 @@
-- extent report failure implementation
+- extent report missing failure implementation
 - webDriverManager implementation
-- add missing steps 
+- add missing steps - in progress
+- GRID issue
+- check logging
+- url/browser values from properties file
+- Create common methods in util to minimize the code in step file
+- parameterize feature file
+- use of key/values from feature file
+- multi browser support
+- rerun failed test case in cucumber

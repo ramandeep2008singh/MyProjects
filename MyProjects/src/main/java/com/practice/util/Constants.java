@@ -57,4 +57,9 @@ public class Constants {
 	 */
 	public static final String GRID_HUB = "http://localhost:4444/wd/hub";
 	
+	/**
+	 * Constant for attributes
+	 */
+	public static final String VALUE = "value";
+	public static final String CLASS = "class";
 }
