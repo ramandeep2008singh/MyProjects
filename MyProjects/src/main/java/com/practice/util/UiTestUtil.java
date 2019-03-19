@@ -10,7 +10,8 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.assertj.core.api.Assertions;
+import org.junit.Rule;
+import org.junit.rules.ErrorCollector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -47,6 +48,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class UiTestUtil {
 
 	/******************* Creating the reference Objects of classes *********/
+
+	@Rule
+	public ErrorCollector collector = new ErrorCollector();
 
 	/**
 	 * variable for properties
@@ -287,16 +291,16 @@ public class UiTestUtil {
 		executer.executeScript("arguments[0].click();", driver.findElement(by));
 	}
 
-	// public WebElement getObject(WebElement we) {
-	// try {
-	// return we;
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// reportFailure("Unable to extract Object: "+ we);
-	// }
-	// return we;
-	//
-	// }
+	public WebElement getWebelement(WebElement we) {
+		try {
+			return we;
+		} catch (Exception e) {
+			e.printStackTrace();
+			reportFailure("Unable to extract Object: " + we);
+		}
+		return we;
+
+	}
 
 	/******************* Methods to handle waits *************************/
 
@@ -343,7 +347,14 @@ public class UiTestUtil {
 		// take screenshot and put in repots
 		takeSceenShot();
 		// fail in cucumber as well
-		Assertions.assertThat(false);
+		collector.addError(new Throwable(errMsg));
+		// Assertions.assertThat(false);
+		// try {
+		// throw new Exception(errMsg);
+		// } catch (Exception e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	/**

@@ -1,6 +1,5 @@
 - extent report missing failure implementation
 - webDriverManager implementation
-- add missing steps - in progress
 - GRID issue
 - check logging
 - url/browser values from properties file

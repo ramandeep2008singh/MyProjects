@@ -29,7 +29,8 @@ public class UiStepDefinition extends UiTestUtil {
 	/**************** Hooks (Before & After) ******************************/
 
 	/**
-	 * Before method
+	 * Inside Before method, initializing all required methods and generating
+	 * the reports
 	 */
 	@Before
 	public void beforeAnnotation(Scenario s) {
@@ -37,6 +38,9 @@ public class UiStepDefinition extends UiTestUtil {
 		initializeMethods();
 	}
 
+	/**
+	 * Inside After method, flushing the report and closing the browser
+	 */
 	@After
 	public void afterAnnotation() {
 		quit();
@@ -56,6 +60,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Navigating to the portal
+	 */
 	@Given("^The portal is opened$")
 	public void PortalIsOpened() {
 		infoLog("The portal is opened");
@@ -85,6 +92,9 @@ public class UiStepDefinition extends UiTestUtil {
 		uiTestPageModel.getBtnCreateAnAcc().click();
 	}
 
+	/**
+	 * Filling YOUR ADDRESS fields
+	 */
 	@And("^user fills in information in the field YOUR ADDRESS$")
 	public void fillYourAddressFields() {
 		infoLog("Filling YOUR ADDRESS fields");
@@ -101,13 +111,20 @@ public class UiStepDefinition extends UiTestUtil {
 		uiTestPageModel.getTxtBoxAlias().sendKeys(properties.getProperty("Alias"));
 	}
 
+	/**
+	 * Clicking on Register button
+	 */
 	@And("^user clicks on Register button$")
 	public void clickOnRegisterBtn() {
 		infoLog("Clciking on Register button");
+		// reportFailure("failing to click on register button");
 		uiTestPageModel.getBtnRegister().click();
 
 	}
 
+	/**
+	 * Verifying the user name
+	 */
 	@And("^verify the username is formed by concatenating FirstName and LastName$")
 	public void verifyUsername() {
 		infoLog("Correct username is showing at the top");
@@ -116,6 +133,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Verifying the Sign-out link
+	 */
 	@And("^verify the Sign out button is present$")
 	public void verifySignoutBtn() {
 		infoLog("Sign-out button is present");
@@ -123,6 +143,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Checking the header MY ACCOUNT
+	 */
 	@And("^verify that MY ACCOUNT header is present$")
 	public void verifyMyAccHeader() {
 		infoLog("MY ACCOUNT header is present");
@@ -131,6 +154,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Verifying the welcome message
+	 */
 	@And("^verify that welcome message is also present$")
 	public void verifyWelcomeMsg() {
 		infoLog("Welcome message is present");
@@ -140,12 +166,20 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Entering email
+	 * 
+	 * @param emailAddr
+	 */
 	@And("^user enters (.*)$")
 	public void enterEmailAddr(String emailAddr) {
 		infoLog("Entering email " + EMAIL);
 		uiTestPageModel.getTxtBoxCreateAcc().sendKeys(generateRandomEmail());
 	}
 
+	/**
+	 * Clicking on the sign-in button below the email/pass fields
+	 */
 	@And("^Sign in button below the password field is clicked$")
 	public void clickOnSignInBtnBelowPassField() {
 		infoLog("Sign in button below the passsword field is clicked");
@@ -155,6 +189,9 @@ public class UiStepDefinition extends UiTestUtil {
 		}
 	}
 
+	/**
+	 * Entering credentials
+	 */
 	@And("^Email and Password are entered in the ALREADY REGISTERED section$")
 	public void enterEmailAndPass() {
 		infoLog("email and password are entered in the fields");
@@ -164,10 +201,13 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Checking out the desired product in below methods
+	 */
 	@And("^user clicks the product with title as Faded Short Sleeve Tshirts$")
 	public void selectProductWithTitleFadedShort() {
 		infoLog("User is selecting the product");
-		JavascriptExecutor js = (JavascriptExecutor)driver;
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,900)", "");
 		uiTestPageModel.getLinkFadedShortTShirt().click();
 
@@ -274,6 +314,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Clicking on the sign-in button
+	 */
 	@When("^user clicks on Sign in button on the top$")
 	public void clickOnTopSignInBtn() {
 		waitForElementDisplayed(By.cssSelector(".login"));
@@ -281,6 +324,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Selecting the category from top menu: Women
+	 */
 	@When("^user clicks on Women option in the menu bar$")
 	public void clickOnWomenOption() {
 		infoLog("User is clicking on Women section");
@@ -290,16 +336,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	/**************************** THEN Methods *************************/
 
-	@Then("^Authentication Page opens$")
-	public void authenticationPageOpens() {
-
-	}
-
-	@Then("^CREATE AN ACCOUNT page opens$")
-	public void createAnAccPageOpens() {
-
-	}
-
+	/**
+	 * Verifying the URL appender
+	 */
 	@Then("^verify that the correct appender is loaded in Url$")
 	public void appConfirmationUrl() {
 		infoLog("Appender URL is loaded correctly");
@@ -308,6 +347,9 @@ public class UiStepDefinition extends UiTestUtil {
 
 	}
 
+	/**
+	 * Verifying the URL appender
+	 */
 	@Then("^verify that correct appender in the URL is loaded after the login$")
 	public void afterLoginUrl() {
 		infoLog("Login is successful");
@@ -315,6 +357,9 @@ public class UiStepDefinition extends UiTestUtil {
 		assertTrue(afterLoginUrl, "Login is not successful ");
 	}
 
+	/**
+	 * Verifying the URL appender
+	 */
 	@Then("^verify that correct appender in the URL is loaded after placing an order$")
 	public void verifyConfirmationUrlForOrder() {
 		infoLog("Verifying the url...");
