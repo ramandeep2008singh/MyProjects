@@ -49,7 +49,6 @@ public class ApiStepDefinition {
 	 */
 	@Test
 	public void atestSchemaTest() throws ClientProtocolException, IOException {
-		
 		HttpUriRequest request = new HttpGet(Constants.GET_ALL_EMPLOYEES);
 		CloseableHttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
 		JsonNode jsonNode = new ObjectMapper().readTree(httpResponse.getEntity().getContent());

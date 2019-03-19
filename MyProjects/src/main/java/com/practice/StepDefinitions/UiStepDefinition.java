@@ -1,7 +1,7 @@
 package com.practice.StepDefinitions;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -139,7 +139,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^verify the Sign out button is present$")
 	public void verifySignoutBtn() {
 		infoLog("Sign-out button is present");
-		assertTrue(uiTestPageModel.getLinkSignOut().isDisplayed(), " Sign-out button is not present ");
+		assertTrue(uiTestPageModel.getLinkSignOut().isDisplayed());
 
 	}
 
@@ -278,7 +278,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^verify the last breadcrumb is the current selection$")
 	public void verifyLastBreadcrumb() {
 		assertTrue(uiTestPageModel.getLblPaymentBrdCrmb().getAttribute(Constants.CLASS)
-				.equals(properties.getProperty("ClassPropertyValue")), "Not an end of breadcrumb ");
+				.equals(properties.getProperty("ClassPropertyValue")));
 
 	}
 
@@ -342,8 +342,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@Then("^verify that the correct appender is loaded in Url$")
 	public void appConfirmationUrl() {
 		infoLog("Appender URL is loaded correctly");
-		assertTrue(driver.getCurrentUrl().contains(properties.getProperty("ConfirmationAppUrl")),
-				" Correct appender URL is missing ");
+		assertTrue(driver.getCurrentUrl().contains(properties.getProperty("ConfirmationAppUrl")));
 
 	}
 
@@ -354,7 +353,7 @@ public class UiStepDefinition extends UiTestUtil {
 	public void afterLoginUrl() {
 		infoLog("Login is successful");
 		boolean afterLoginUrl = driver.getCurrentUrl().contains(properties.getProperty("ConfirmationAppUrl"));
-		assertTrue(afterLoginUrl, "Login is not successful ");
+		assertTrue(afterLoginUrl);
 	}
 
 	/**
@@ -363,7 +362,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@Then("^verify that correct appender in the URL is loaded after placing an order$")
 	public void verifyConfirmationUrlForOrder() {
 		infoLog("Verifying the url...");
-		assertTrue(driver.getCurrentUrl().contains(properties.getProperty("OrderConfirmUrl")), "Url is not correct");
+		assertTrue(driver.getCurrentUrl().contains(properties.getProperty("OrderConfirmUrl")));
 	}
 
 }
