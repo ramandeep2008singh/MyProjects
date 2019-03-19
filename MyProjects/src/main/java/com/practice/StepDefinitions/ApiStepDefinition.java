@@ -5,7 +5,6 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import java.util.Set;
 
@@ -29,17 +28,20 @@ import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.ValidationMessage;
 import com.practice.util.Constants;
 
-
-
 /**
+ * This class contains test cases for REST API testing 
+ * @author USER
  *
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ApiStepDefinition {
 
-	
+	/**
+	 * Declaring static variables
+	 */
 	private static String CREATED_EMPLOYEE_ID;
 	private static  String CREATED_EMPLOYEE_NAME="test_gk_unique"+generateRandomNos();
+	
 	/**
 	 * Method to test the scenario:
 	 * "Get all employees and validate the schema returned in the response"

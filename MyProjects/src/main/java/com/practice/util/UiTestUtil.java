@@ -132,6 +132,7 @@ public class UiTestUtil {
 				caps.setPlatform(Platform.ANY);
 			}
 			try {
+				// TODO: getting null driver
 				driver = new RemoteWebDriver(new URL("http://192.168.0.101:4444/wd/hub"), caps);
 
 			} catch (Exception e) {
