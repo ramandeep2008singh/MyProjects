@@ -195,7 +195,7 @@ public class UiTestPageModel {
 	/**
 	 * Locator for Link block: "Faded Short Sleeve T-shirts"
 	 */
-	@FindBy(xpath = "//a[@title='Faded Short Sleeve T-shirts']/ancestor::li")
+	@FindBy(css = ".product_list.grid.row>li:first-child .right-block .product-name")
 	private WebElement LinkFadedShortTShirt;
 
 	/**
@@ -226,7 +226,7 @@ public class UiTestPageModel {
 	 * Locator for Checkbox: "I agree to the terms of service and will adhere to
 	 * them unconditionally. (Read the Terms of Service)"
 	 */
-	@FindBy(css = "#uniform-cgv")
+	@FindBy(css = "#uniform-cgv input")
 	private WebElement chkBoxIAgree;
 
 	/**

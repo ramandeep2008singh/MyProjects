@@ -80,7 +80,7 @@ public class UiTestUtil {
 	 * WebDriver wait object
 	 */
 	public WebDriverWait wait;
-	
+
 	/**
 	 * Declaring Select Objects
 	 */
@@ -112,7 +112,7 @@ public class UiTestUtil {
 				caps = DesiredCapabilities.chrome();
 				caps.setBrowserName(Constants.CHROME);
 				// caps.setJavascriptEnabled(true);
-				 caps.setPlatform(Platform.ANY);
+				caps.setPlatform(Platform.ANY);
 			} else if (browserName.equalsIgnoreCase(Constants.FIREFOX)) {
 				caps = DesiredCapabilities.firefox();
 				caps.setJavascriptEnabled(true);
@@ -256,7 +256,7 @@ public class UiTestUtil {
 		return EMAIL;
 
 	}
-	
+
 	/**
 	 * Method to verify if element is present
 	 * 
@@ -274,7 +274,7 @@ public class UiTestUtil {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Method to click on element using java script.
 	 * 
@@ -285,23 +285,6 @@ public class UiTestUtil {
 		waitForElementToBeClickable(by);
 		JavascriptExecutor executer = driver;
 		executer.executeScript("arguments[0].click();", driver.findElement(by));
-	}
-	
-	/**
-	 * Scroll into view
-	 * 
-	 * @param element
-	 *        Scroll into view
-	 */
-	public void scrollIntoView(WebElement element) {
-
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	// public WebElement getObject(WebElement we) {

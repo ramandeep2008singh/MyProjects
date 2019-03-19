@@ -12,8 +12,8 @@ import cucumber.api.junit.Cucumber;
 		monochrome=false,
 		features= {"src/main/resources/"},
 		glue = {"com.practice.StepDefinitions"},
-		format = {"pretty"},
-		tags = {"@Checkout"}
+		format = {"pretty"}
+//		tags = {"@Checkout"}
 		)
 
 public class MyRunner {

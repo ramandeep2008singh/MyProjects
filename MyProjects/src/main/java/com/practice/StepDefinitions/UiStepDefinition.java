@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.Select;
 
 import com.practice.util.Constants;
@@ -166,9 +167,9 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^user clicks the product with title as Faded Short Sleeve Tshirts$")
 	public void selectProductWithTitleFadedShort() {
 		infoLog("User is selecting the product");
-		waitForElementToBeClickable(By.cssSelector(".button-container>span"));
-		scrollIntoView(uiTestPageModel.getBtnAddToCartOnMouseAction());
-		uiTestPageModel.getBtnAddToCartOnMouseAction().click();
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		js.executeScript("window.scrollBy(0,900)", "");
+		uiTestPageModel.getLinkFadedShortTShirt().click();
 
 	}
 
@@ -209,7 +210,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^user clicks on Proceed to checkout button on SHIPPING section$")
 	public void clickOnProceedOnShippingSection() {
 		infoLog("clicking ....");
-		uiTestPageModel.getBtnProcessAddress().click();
+		uiTestPageModel.getBtnProcessCarrier().click();
 
 	}
 
