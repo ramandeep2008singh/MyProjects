@@ -1,6 +1,6 @@
 package com.practice.StepDefinitions;
 
-import static org.testng.Assert.assertNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.util.Set;
@@ -24,7 +24,7 @@ import com.networknt.schema.ValidationMessage;
 public class ApiStepDefinition {
 
 	@Test
-	public void restTest() throws ClientProtocolException, IOException {
+	public void restSchemaTest() throws ClientProtocolException, IOException {
 		// Given
 		// String name = RandomStringUtils.randomAlphabetic(8);
 		HttpUriRequest request = new HttpGet("http://dummy.restapiexample.com/api/v1/employees");
@@ -42,5 +42,10 @@ public class ApiStepDefinition {
 		// Validate the JSON against the schema.
 		Set<ValidationMessage> validationErrors = schema.validate(jsonNode);
 		assertNull(validationErrors);
+	}
+	
+	@Test
+	public void restPostNewEmpAndChkResp() {
+		
 	}
 }
