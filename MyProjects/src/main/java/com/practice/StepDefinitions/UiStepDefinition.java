@@ -128,8 +128,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^verify the username is formed by concatenating FirstName and LastName$")
 	public void verifyUsername() {
 		infoLog("Correct username is showing at the top");
-		assertEquals(uiTestPageModel.getLinkUserName().getText(), properties.getProperty("UserName"),
-				" Username is not correctly showing ");
+		assertEquals(uiTestPageModel.getLinkUserName().getText(), properties.getProperty("UserName"));
 
 	}
 
@@ -149,8 +148,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^verify that MY ACCOUNT header is present$")
 	public void verifyMyAccHeader() {
 		infoLog("MY ACCOUNT header is present");
-		assertEquals(uiTestPageModel.getLblMyAccount().getText(), properties.getProperty("HeaderMyAccountText"),
-				" Header is not present ");
+		assertEquals(uiTestPageModel.getLblMyAccount().getText(), properties.getProperty("HeaderMyAccountText"));
 
 	}
 
@@ -160,8 +158,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^verify that welcome message is also present$")
 	public void verifyWelcomeMsg() {
 		infoLog("Welcome message is present");
-		assertEquals(uiTestPageModel.getLblSubHeading().getText(), properties.getProperty("WelcomeText"),
-				" Welcome message is not present ");
+		assertEquals(uiTestPageModel.getLblSubHeading().getText(), properties.getProperty("WelcomeText"));
 		uiTestPageModel.getLinkSignOut().click();
 
 	}
@@ -271,7 +268,7 @@ public class UiStepDefinition extends UiTestUtil {
 	@And("^verify that the order is complete$")
 	public void verifyOrderIsComplete() {
 		assertEquals(uiTestPageModel.getLblOrderIsComplete().getText(),
-				properties.getProperty("OrderIsCompleteTextMsg"), "Order page is not shown ");
+				properties.getProperty("OrderIsCompleteTextMsg"));
 
 	}
 
